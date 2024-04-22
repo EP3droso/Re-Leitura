@@ -1,8 +1,8 @@
 const formulario = document.getElementById('formulario');
-alert("njbd")
+
 formulario.addEventListener('submit', function(event) {
   event.preventDefault(); // Evita o envio padrão do formulário
-
+  
   const titulo = document.getElementById('titulo').value;
   const autor = document.getElementById('autor').value;
   const genero = document.getElementById('genero').value;
@@ -10,6 +10,15 @@ formulario.addEventListener('submit', function(event) {
   const nomeDoador = document.getElementById('nomeDoador').value;
   const contatoDoador = document.getElementById('contatoDoador').value;
 
+var dadosFormulario = {
+    tituloF : titulo,
+    autorF : autor,
+    generoF : genero,
+    estadoF : estado,
+    nomeDoadorF :nomeDoador,
+    contatoDoadorF :contatoDoador
+
+}
   // Validação opcional (evita envio de dados incompletos)
   if (titulo === '' || autor === '' || genero === '' || estado === '') {
     alert('Preencha todos os campos obrigatórios!');
@@ -28,6 +37,10 @@ formulario.addEventListener('submit', function(event) {
   // Implemente aqui a lógica para salvar os dados do formulário
   // Exemplos: salvar em banco de dados local, enviar para um servidor, etc.
   // ...
+  var dadosJSON = JSON.stringify(dadosFormulario);
+
 
   alert('Livro cadastrado com sucesso!');
+  localStorage.setItem('dadosFormulario', dadosJSON);
+  document.getElementById("formulario").reset();
 });
