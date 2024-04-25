@@ -5,11 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Livros Resgatados</title>
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+
+
+    background-color: EFEFEE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+h1 {
+  
+      margin-bottom: 50px;
+    position: absolute; /* Posiciona o h1 de acordo com o corpo */
+    top: 20px; /* Define a distância do topo */
+    left: 50%; /* Define a posição horizontal no meio */
+    transform: translateX(-50%); /* Centraliza horizontalmente */
+
+}
+#conteudo{
+    
+        /* Para centralizar o conteúdo dentro do contêiner */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+
+    
+}
+#container{
+    
+       /* Define o tamanho do contêiner */
+       width: 800px; /* largura desejada */
+       height: 700px; /* altura desejada */
+       border: 1px solid black; /* Apenas para visualização */
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+
+.login{
+
+    background-color: lightblue;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+    </style>
 </head>
 <body>
 
     
     <h1>Cadastro de Livros Resgatados</h1>
+    
     <div id="container">
     <div id="conteudo">
     <form id="formulario">
@@ -45,9 +116,58 @@
         <input type="text" id="contatoDoador" name="contatoDoador"><br><br>
 
         <button type="submit">Cadastrar</button>
+        <a href="login.html" ><button class="login" type="button">Login</button></a>
     </form>
     </div>
 </div>
-    <script src="script.js"></script>
+    <script >
+
+const formulario = document.getElementById('formulario');
+
+formulario.addEventListener('submit', function(event) {
+  event.preventDefault(); // Evita o envio padrão do formulário
+  
+  const titulo = document.getElementById('titulo').value;
+  const autor = document.getElementById('autor').value;
+  const genero = document.getElementById('genero').value;
+  const estado = document.getElementById('estado').value;
+  const nomeDoador = document.getElementById('nomeDoador').value;
+  const contatoDoador = document.getElementById('contatoDoador').value;
+
+var dadosFormulario = {
+    tituloF : titulo,
+    autorF : autor,
+    generoF : genero,
+    estadoF : estado,
+    nomeDoadorF :nomeDoador,
+    contatoDoadorF :contatoDoador
+
+}
+  // Validação opcional (evita envio de dados incompletos)
+  if (titulo === '' || autor === '' || genero === '' || estado === '') {
+    alert('Preencha todos os campos obrigatórios!');
+    return; // Interrompe a execução do código caso a validação falhe
+  }
+
+  // Exibir dados no console para fins de demonstração
+  console.log('Livro cadastrado:');
+  console.log('Título:', titulo);
+  console.log('Autor:', autor);
+  console.log('Gênero:', genero);
+  console.log('Estado:', estado);
+  console.log('Nome do Doador:', nomeDoador);
+  console.log('Contato do Doador:', contatoDoador);
+
+  // Implemente aqui a lógica para salvar os dados do formulário
+  // Exemplos: salvar em banco de dados local, enviar para um servidor, etc.
+  // ...
+  var dadosJSON = JSON.stringify(dadosFormulario);
+
+
+  alert('Livro cadastrado com sucesso!');
+  localStorage.setItem('dadosFormulario', dadosJSON);
+  document.getElementById("formulario").reset();
+});
+    </script>
 </body>
 </html>

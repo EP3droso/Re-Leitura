@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        form {
+            background-color: #f2f2f2;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .cadastro{
+            color: #0056b3;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm" onsubmit="return validarLogin()">
+            <label for="username">Usuário:</label>
+            <input type="text" id="username" name="username" required><br><br>
+            
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            
+            <button type="submit">Entrar</button>
+            <BR></BR>
+            <div class="cadastro">
+                <a href="cadastro.html" >Ainda não tem conta? Cadastrar</a>
+            </div>
+        </form>
+    
+    </div>
+
+    <script>
+        function validarLogin() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            // Verificar se os campos estão vazios
+            if (username === "" || password === "") {
+                alert("Por favor, preencha todos os campos.");
+                return false; // Impede o envio do formulário se os campos estiverem vazios
+            }
+
+            // Lê o arquivo "logins.txt" e verifica se os dados de login correspondem
+            fetch('logins.txt')
+                .then(response => response.text())
+                .then(data => {
+                    const linhas = data.split('\n');
+                    for (let linha of linhas) {
+                        const [login, senha] = linha.split(',');
+                        if (login.trim() === username.trim() && senha.trim() === password.trim()) {
+                            window.location.href = 'index.html';
+                            return true;
+                        }
+                    }
+                    alert("Usuário ou senha incorretos.");
+                    return false;
+                })
+                .catch(error => {
+                    console.error('Erro ao ler o arquivo logins.txt:', error);
+                    alert("Ocorreu um erro ao processar o login.");
+                    return false;
+                });
+
+            return false; // Impede o envio do formulário enquanto a verificação está em andamento
+        }
+    </script>
+</body>
+</html>

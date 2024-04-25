@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        form {
+            background-color: #f2f2f2;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+   
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Cadastro</h2>
+        <form id="loginForm" onsubmit="return validarCadastro()">
+            <label for="username">Usuário:</label>
+            <input type="text" id="username" name="username" required><br><br>
+            
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            
+            <label for="passwordConfirm"  >Confirmar Senha:</label>
+            <input type="text" id="passwordConfirm" required >
+
+
+            <BR></BR>
+            <button type="submit">Cadastrar</button>
+            
+     
+        </form>
+    
+    </div>
+
+
+
+</body>
+
+<script>
+    function validarCadastro(){
+        
+
+        var username = document.getElementById("usename")
+        var password = document.getElementById("password").value;
+        var passwordConfirm = document.getElementById("passwordConfirm").value;
+
+        
+
+        if (username === "" || password === "" || passwordConfirm === ""){
+            alert("Por favor, preencha todos os campos.");
+            return false;
+        }
+
+        if(password !== passwordConfirm){
+            alert("Por favor coloque a mesma senha nos dois campos")
+            return false;
+        }
+        
+        fetch("logins.txt")
+        .then(response => response.text())
+        .then(data => {
+            var userExists = false;
+            const linhas = data.split('/n')
+            for(let linha of linhas){
+
+                const [cadastro, senha] = linha.split(',');
+                if(cadastro.trim() === username && senha.trim() === password ){
+                    userExists = true;
+                    break;
+                }
+
+            }
+
+            if (userExists){
+                alert("Usuário ou senha já existem.");
+                return false;
+            }
+
+            else{
+                const newUser = username.trim() + ',' + password.trim()
+                fetch("logins.txt", {
+                method: "POST",
+                body: newUser,
+                headers: {
+                    "Content-Type": "text/plain"
+                }   
+            }).then(() => {
+                alert("Usuário registrado com sucesso.");
+                window.location.href ='index.html'
+                // Você pode adicionar mais ações aqui, se necessário
+            }).catch(error => {
+                console.error('Erro ao adicionar usuário:', error);
+                alert("Erro ao registrar usuário. Por favor, tente novamente mais tarde.");
+            });
+        }
+    });
+                
+            }
+
+
+
+
+
+
+        
+
+
+
+    
+
+
+</script>
+</html>
